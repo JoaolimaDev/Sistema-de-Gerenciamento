@@ -3,7 +3,9 @@ package com.essia.desafio_essia.controller;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,9 +24,10 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final JwtUtilities jwtUtil;
 
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Valid LoginRequest loginRequest){
 
         Optional<User> userOptional = userRepository.findByUsername(loginRequest.username());
@@ -36,7 +39,9 @@ public class UserController {
             if (passwordEncoder.matches(loginRequest.password(), user.getPassword())) {
                 
                 String token = jwtUtil.generateToken(new org.springframework.security.core.userdetails.User(
-                    user.getUsername(), user.getPassword(), new java.util.ArrayList<>()
+                    user.getUsername(), 
+                    user.getPassword(), 
+                    AuthorityUtils.createAuthorityList(user.getRole())
                 ));
 
                 return ResponseEntity.ok(token);

@@ -27,10 +27,12 @@ public class DatabaseConfig {
             User admin = new User();
             admin.setUsername("admin");
             admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setRole("ADMIN");
 
             User user = new User();
             user.setUsername("user");
             user.setPassword(passwordEncoder.encode("user123"));
+            user.setRole("USER");
 
             
             userRepository.saveAll(Arrays.asList(admin, user));
