@@ -29,7 +29,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/filesystem/**").authenticated()
                 .anyRequest().authenticated()
             .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and().headers().frameOptions().sameOrigin();
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
