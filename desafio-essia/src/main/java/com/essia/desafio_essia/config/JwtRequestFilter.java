@@ -10,6 +10,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.essia.desafio_essia.config.utilities.JwtUtilities;
 import com.essia.desafio_essia.service.UserService;
 
 import jakarta.servlet.FilterChain;

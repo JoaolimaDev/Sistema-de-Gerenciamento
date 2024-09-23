@@ -2,6 +2,7 @@ package com.essia.desafio_essia.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,15 +23,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
             .authorizeHttpRequests()
-                .requestMatchers("/api/auth/login").permitAll()
-                .requestMatchers("/api/admin/**").permitAll() 
-                .requestMatchers("/api/user/**").permitAll()  
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/api/filesystem/**").authenticated()
                 .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    
+
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-    
+
         return http.build();
     }
     
