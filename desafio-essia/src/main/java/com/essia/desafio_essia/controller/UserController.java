@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.essia.desafio_essia.config.utilities.JwtUtilities;
-import com.essia.desafio_essia.domain.model.User;
-import com.essia.desafio_essia.domain.repository.UserRepository;
+import com.essia.desafio_essia.domain.model.h2.User;
+import com.essia.desafio_essia.domain.repository.h2.UserRepository;
 import com.essia.desafio_essia.dto.LoginRequest;
 import com.essia.desafio_essia.dto.Response;
 

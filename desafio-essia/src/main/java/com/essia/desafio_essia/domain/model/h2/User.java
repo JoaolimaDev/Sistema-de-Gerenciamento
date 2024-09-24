@@ -1,4 +1,4 @@
-package com.essia.desafio_essia.domain.model;
+package com.essia.desafio_essia.domain.model.h2;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

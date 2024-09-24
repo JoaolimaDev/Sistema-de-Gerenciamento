@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.essia.desafio_essia.domain.model.User;
-import com.essia.desafio_essia.domain.repository.UserRepository;
+import com.essia.desafio_essia.domain.model.h2.User;
+import com.essia.desafio_essia.domain.repository.h2.UserRepository;
 
 import jakarta.annotation.PostConstruct;
 

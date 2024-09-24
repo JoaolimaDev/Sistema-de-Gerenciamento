@@ -5,8 +5,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.essia.desafio_essia.domain.model.User;
-import com.essia.desafio_essia.domain.repository.UserRepository;
+import com.essia.desafio_essia.domain.model.h2.User;
+import com.essia.desafio_essia.domain.repository.h2.UserRepository;
 import com.essia.desafio_essia.service.UserService;
 
 import lombok.RequiredArgsConstructor;

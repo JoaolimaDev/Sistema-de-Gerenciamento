@@ -10,8 +10,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.essia.desafio_essia.domain.model.User;
-import com.essia.desafio_essia.domain.repository.UserRepository;
+import com.essia.desafio_essia.domain.model.h2.User;
+import com.essia.desafio_essia.domain.repository.h2.UserRepository;
 
 import jakarta.annotation.PostConstruct;
 
