@@ -4,6 +4,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.essia.desafio_essia.domain.model.h2.User;
 import com.essia.desafio_essia.domain.repository.h2.UserRepository;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional("h2TransactionManager")
 public class UserServiceImpl implements  UserService {
 
 
