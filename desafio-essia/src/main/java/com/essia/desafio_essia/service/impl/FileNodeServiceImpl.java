@@ -1,6 +1,5 @@
 package com.essia.desafio_essia.service.impl;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
