@@ -1,19 +1,22 @@
 package com.essia.desafio_essia.controller;
 
+import java.util.List;
+
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.essia.desafio_essia.domain.model.neo4j.FileNode;
-import com.essia.desafio_essia.dto.Response;
+import com.essia.desafio_essia.dto.FileNodeRequest;
 import com.essia.desafio_essia.service.FileNodeService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -34,10 +37,12 @@ public class FileSystemController {
         @ApiResponse(responseCode = "500", description = "")
     })
     @GetMapping("/")
-    public ResponseEntity<Response> getFile(){
+    public ResponseEntity<List<FileNode>> getAllFileNode(){
 
-        Response response = new Response("Você chegou aqui!", HttpStatus.OK.name());
-        return new ResponseEntity<>(response, HttpStatus.OK); 
+       List<FileNode> listFileNodes = fileNodeService.getAllFileNode();
+
+       return new ResponseEntity<>(listFileNodes, HttpStatus.OK);
+        
     }
 
     @Operation(summary = "filesystem", description = "teste", 
@@ -51,13 +56,13 @@ public class FileSystemController {
     @RequestBody
     @Schema(
         description = "Request body for user login",
-        example = "{\"name\": \"root\"}"
+        example = "{\"name\": \"root\", \"isDirectory\": true}"
     )
-    FileNode fileNode){
+    FileNodeRequest fileNode) throws BadRequestException {
 
         FileNode newFile = fileNodeService.createFilenode(fileNode);
 
-        return new ResponseEntity<>(newFile, HttpStatus.OK);
+        return new ResponseEntity<>(newFile, HttpStatus.CREATED);
     }
     
 }
