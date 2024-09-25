@@ -26,6 +26,7 @@ public class FileNode {
 
     private String name;
     private Boolean isDirectory;
+    private Boolean isChild;
 
     @Builder.Default
     @Relationship(type = "contains", direction = Direction.OUTGOING)

@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                 .requestMatchers("/h2-console/**").permitAll() 
-                .requestMatchers("/api/filesystem/**").authenticated()
+                .requestMatchers("/api/filesystem/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
