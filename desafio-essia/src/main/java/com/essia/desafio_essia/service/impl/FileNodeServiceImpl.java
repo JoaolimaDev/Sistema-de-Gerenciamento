@@ -1,8 +1,11 @@
 package com.essia.desafio_essia.service.impl;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -56,21 +59,33 @@ public class FileNodeServiceImpl implements FileNodeService {
     }
 
     @Override
-    public Page<FileNode> getAllFileNode(int page, int size) {
+    public Page<FileNode>getAllFileNode(int pageNumber, int pageSize) {
        
-        return fileNodeRepository.findAll(PageRequest.of(page, size));
+        Page<FileNode> fileNodes = fileNodeRepository.findAll(PageRequest.of(pageNumber, pageSize));
+
+        long totalElements = fileNodes.getNumberOfElements();
+
+        List<FileNode> pagedNodes = fileNodes.stream()
+        .filter(predicate -> !predicate.getIsChild())
+        .collect(Collectors.toList());
+
+        return new PageImpl<>(pagedNodes, PageRequest.of(pageNumber, pageSize), totalElements);    
     }
 
     @Override
-    public FileNode getFileNodeById() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFileNodeById'");
+    public FileNode getFileNodeById(Long Id) {
+        
+        return fileNodeRepository.findById(Id)
+        .orElseThrow(() -> new CustomException("Nenhum arquivo ou diretório encontrado para o id enviado!",
+        HttpStatus.BAD_REQUEST));
     }
 
     @Override
-    public FileNode getFileNodeByName() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFileNodeByName'");
+    public FileNode getFileNodeByName(String name) {
+        
+        return fileNodeRepository.findByname(name)
+        .orElseThrow(() -> new CustomException("Nenhum arquivo ou diretório encontrado para"+
+        "o nome enviado!", HttpStatus.BAD_REQUEST));
     }
 
     @Override
@@ -80,9 +95,10 @@ public class FileNodeServiceImpl implements FileNodeService {
     }
 
     @Override
-    public FileNode deleteFileNodeById() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteFileNodeById'");
+    public Void deleteFileNodeById(Long Id) {
+
+        fileNodeRepository.deleteById(Id);
+        return null;
     }
 
 

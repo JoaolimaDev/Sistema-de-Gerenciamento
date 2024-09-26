@@ -43,7 +43,7 @@ public class FileSystemController {
     })
     @GetMapping("/")
     public ResponseEntity<Page<FileNode>> getAllFileNode(
-         @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size
     ){
 
