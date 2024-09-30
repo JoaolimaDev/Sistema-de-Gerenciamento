@@ -28,7 +28,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -66,7 +65,6 @@ public class FileSystemController {
     })
     @PostMapping("/createExample2")
     public ResponseEntity<FileNodeResponseCreated> createFileExample2(
-    @Valid
     @RequestBody
     @Schema(
         description = "Request body for user login",
@@ -95,7 +93,6 @@ public class FileSystemController {
     })
     @PostMapping("/create")
     public ResponseEntity<FileNodeResponseCreated> createFile(
-    @Valid
     @RequestBody
     @Schema(
         description = "Request body for user login",
