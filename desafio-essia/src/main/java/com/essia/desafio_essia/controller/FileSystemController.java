@@ -20,7 +20,6 @@ import com.essia.desafio_essia.dto.FileNodePostRequest;
 import com.essia.desafio_essia.dto.FileNodePutRequest;
 import com.essia.desafio_essia.dto.FileNodeResponse;
 import com.essia.desafio_essia.dto.FileNodeResponseCreated;
-import com.essia.desafio_essia.dto.Response;
 import com.essia.desafio_essia.service.FileNodeService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,15 +39,14 @@ public class FileSystemController {
     public final FileNodeService fileNodeService;
 
     
-    @Operation(summary = "filesystem", description = "teste", 
+    @Operation(summary = "Retorna todos arquivos paginados!", 
+    description = "Enviando a página e tamanho do output por página (request param page e size)"+
+    " as entidades serão retornadas utilizando a interface Page", 
     security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "", 
+        @ApiResponse(responseCode = "200", description = "Retorno das entidades!", 
         content = { @Content(mediaType = "application/json", 
-            schema = @Schema(implementation = FileNode.class)) }),
-        @ApiResponse(responseCode = "500", description = "", 
-        content = { @Content(mediaType = "application/json", 
-            schema = @Schema(implementation = Response.class)) })
+            schema = @Schema(implementation = FileNode.class)) })
     })
     @GetMapping("/")
     public ResponseEntity<Page<FileNode>> getAllFileNode(
@@ -59,11 +57,41 @@ public class FileSystemController {
         return new ResponseEntity<>(listFileNodes, HttpStatus.OK);
     }
 
-    @Operation(summary = "filesystem", description = "teste", 
+    @Operation(summary = "Criação de entidades", 
+    description = "Neste endpoint temos o exemplo da criação de uma entidade do tipo arquivo, de nome teste.txt"
+    + " entidades do tipo arquivo recebem a propriedade isDirectory como false ", 
     security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = ""),
-        @ApiResponse(responseCode = "500", description = "")
+        @ApiResponse(responseCode = "200", description = "Retorno da entidade!")
+    })
+    @PostMapping("/createExample2")
+    public ResponseEntity<FileNodeResponseCreated> createFileExample2(
+    @Valid
+    @RequestBody
+    @Schema(
+        description = "Request body for user login",
+        example = "{\"name\": \"teste.txt\", \"isDirectory\": false}"
+    )
+    FileNodePostRequest fileNode) {
+
+        FileNode newFile = fileNodeService.createFilenode(fileNode);
+        String uri = ServletUriComponentsBuilder.fromCurrentContextPath() 
+        .path("/api/filesystem/getById")  
+        .queryParam("id", newFile.getId())  
+        .toUriString();  
+
+        FileNodeResponseCreated fileNodeResponse = new FileNodeResponseCreated(newFile, HttpStatus.OK.name(), uri);
+
+
+        return ResponseEntity.created(URI.create(uri)).body(fileNodeResponse);
+    }
+
+    @Operation(summary = "Criação de entidades", 
+    description = "Neste endpoint temos o exemplo da criação de uma entidade do tipo diretório, de nome root"
+    + " entidades do tipo diretório recebem a propriedade isDirectory como TRUE ", 
+    security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Retorno da entidade!")
     })
     @PostMapping("/create")
     public ResponseEntity<FileNodeResponseCreated> createFile(
@@ -87,15 +115,13 @@ public class FileSystemController {
         return ResponseEntity.created(URI.create(uri)).body(fileNodeResponse);
     }
 
-    @Operation(summary = "filesystem", description = "teste", 
+    @Operation(summary = "Retorna a entidade por ID!", 
+    description = "Neste endpoint enviando a query param ID do tipo long, retornamos a entidade.", 
     security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "", 
+        @ApiResponse(responseCode = "200", description = "Retorno da entidade!", 
         content = { @Content(mediaType = "application/json", 
-            schema = @Schema(implementation = FileNode.class)) }),
-        @ApiResponse(responseCode = "500", description = "", 
-        content = { @Content(mediaType = "application/json", 
-            schema = @Schema(implementation = Response.class)) })
+            schema = @Schema(implementation = FileNode.class))})
     })
     @GetMapping("/getById")
     public ResponseEntity<FileNodeResponse> getFileNodeById(
@@ -107,6 +133,15 @@ public class FileSystemController {
         return new ResponseEntity<>(fileNodeResponse, HttpStatus.OK);
     }
 
+
+    @Operation(summary = "Retorna a entidade por nome!", 
+    description = "Neste endpoint enviando a query param name do tipo String, retornamos a entidade.", 
+    security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Retorno da entidade!", 
+        content = { @Content(mediaType = "application/json", 
+            schema = @Schema(implementation = FileNode.class))})
+    })
     @GetMapping("/getByname")
     public ResponseEntity<FileNodeResponse> getFileNodeByName(
         @RequestParam String name
@@ -118,6 +153,14 @@ public class FileSystemController {
     }
 
 
+    @Operation(summary = "Deleta a entidade por id!", 
+    description = "Neste endpoint enviando a query param id do tipo long, deleta a entidade.", 
+    security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Sem retorno!", 
+        content = { @Content(mediaType = "application/json", 
+            schema = @Schema(implementation = FileNode.class))})
+    })
     @DeleteMapping("/delete")
     public ResponseEntity<Object> deleteFileNodeById(
         @RequestParam Long id
@@ -129,9 +172,24 @@ public class FileSystemController {
     }
 
 
+    @Operation(summary = "Atualiza a entidade!", 
+    description = "Neste endpoint enviando a query param name do tipo String, junto coma requisição enviando, um body"
+    +" do tipo json, com as  caractéristicas a serem afetadas atualizamos a entidade. Neste exemplo caso já tenha sido"
+    +" criado atualizaremos o nome da entidade 'root' para 'rootAtualizado'", 
+    security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Sem retorno!", 
+        content = { @Content(mediaType = "application/json", 
+            schema = @Schema(implementation = FileNode.class))})
+    })
     @PutMapping("/update")
     public ResponseEntity<FileNodeResponse> updateFileNode(
-        @RequestBody FileNodePutRequest fileNodePutRequest,
+        @RequestBody
+        @Schema(
+            description = "Request body for user login",
+            example = "{\"newName\": \"rootAtualizado\", \"isDirectory\": true}"
+        )
+        FileNodePutRequest fileNodePutRequest,
         @RequestParam String name
     ){
 
