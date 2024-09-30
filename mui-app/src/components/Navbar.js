@@ -1,21 +1,19 @@
 // src/components/Navbar.js
 
 import React from 'react';
-import { AppBar, Toolbar, Button, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
-const Navbar = ({ isAuthenticated, onLogout }) => {
-  const navigate = useNavigate();
-
+const Navbar = ({ token, onLogout }) => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          My App
+        <Typography variant="h6" style={{ flexGrow: 1 }}>
+          Desafio sistema de arquivos
         </Typography>
-        {isAuthenticated ? (
+        {token ? (
           <>
-            <Button color="inherit" onClick={() => navigate('/dashboard')}>
+            <Button color="inherit" component={Link} to="/dashboard">
               Dashboard
             </Button>
             <Button color="inherit" onClick={onLogout}>
@@ -23,7 +21,7 @@ const Navbar = ({ isAuthenticated, onLogout }) => {
             </Button>
           </>
         ) : (
-          <Button color="inherit" onClick={() => navigate('/')}>
+          <Button color="inherit" component={Link} to="/">
             Login
           </Button>
         )}

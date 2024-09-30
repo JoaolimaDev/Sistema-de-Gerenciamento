@@ -79,7 +79,7 @@ const Dashboard = () => {
                     <FolderIcon style={{ marginRight: 8 }} />
                       {row.name}
                     </Box>                    
-                    </TableCell>
+                  </TableCell>
                   <TableCell>{row.email}</TableCell>
                   <TableCell>{row.role}</TableCell>
                   <TableCell>
