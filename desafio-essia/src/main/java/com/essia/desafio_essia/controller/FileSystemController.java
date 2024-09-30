@@ -67,7 +67,7 @@ public class FileSystemController {
     public ResponseEntity<FileNodeResponseCreated> createFileExample2(
     @RequestBody
     @Schema(
-        description = "Request body for user login",
+        description = "Request body",
         example = "{\"name\": \"teste.txt\", \"isDirectory\": false}"
     )
     FileNodePostRequest fileNode) {
@@ -84,6 +84,37 @@ public class FileSystemController {
         return ResponseEntity.created(URI.create(uri)).body(fileNodeResponse);
     }
 
+
+    @Operation(summary = "Criação de entidades", 
+    description = "Neste endpoint temos o exemplo da criação de uma entidade do tipo arquivo, de nome teste02.txt"
+    + " entidades do tipo arquivo recebem a propriedade isDirectory como false, neste exemplo a entidade será filha"
+    +" do diretório root caso este já tenha sido criado, isso significa que teste02.txt está contido na pasta root.", 
+    security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Retorno da entidade!")
+    })
+    @PostMapping("/createExample3")
+    public ResponseEntity<FileNodeResponseCreated> createFileExample3(
+    @RequestBody
+    @Schema(
+        description = "Request body",
+        example = "{\"name\": \"teste02.txt\", \"isDirectory\": false, \"parentNode\": \"root\" }"
+    )
+    FileNodePostRequest fileNode) {
+
+        FileNode newFile = fileNodeService.createFilenode(fileNode);
+        String uri = ServletUriComponentsBuilder.fromCurrentContextPath() 
+        .path("/api/filesystem/getById")  
+        .queryParam("id", newFile.getId())  
+        .toUriString();  
+
+        FileNodeResponseCreated fileNodeResponse = new FileNodeResponseCreated(newFile, HttpStatus.OK.name(), uri);
+
+
+        return ResponseEntity.created(URI.create(uri)).body(fileNodeResponse);
+    }
+
+
     @Operation(summary = "Criação de entidades", 
     description = "Neste endpoint temos o exemplo da criação de uma entidade do tipo diretório, de nome root"
     + " entidades do tipo diretório recebem a propriedade isDirectory como TRUE ", 
@@ -95,7 +126,7 @@ public class FileSystemController {
     public ResponseEntity<FileNodeResponseCreated> createFile(
     @RequestBody
     @Schema(
-        description = "Request body for user login",
+        description = "Request body",
         example = "{\"name\": \"root\", \"isDirectory\": true}"
     )
     FileNodePostRequest fileNode) {
@@ -183,7 +214,7 @@ public class FileSystemController {
     public ResponseEntity<FileNodeResponse> updateFileNode(
         @RequestBody
         @Schema(
-            description = "Request body for user login",
+            description = "Request body",
             example = "{\"newName\": \"rootAtualizado\", \"isDirectory\": true}"
         )
         FileNodePutRequest fileNodePutRequest,
