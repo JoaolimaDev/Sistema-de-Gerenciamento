@@ -13,3 +13,12 @@ services:
       - ./db/conf:/conf
       - ./db/logs:/logs
       - ./db/plugins:/plugins
+
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - neo4j
+    ports:
+      - 8080:8080
