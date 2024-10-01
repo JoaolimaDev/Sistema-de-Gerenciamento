@@ -83,7 +83,7 @@ A escalabilidade do Neo4j é um fator importante, permitindo que o sistema cres�
     sudo docker-compose up --build
 ```
 
-🚨 **Aviso:** Foi implementada autentição JWT, utilizando spring security, dois usuários estão disponíveis.
+🚨 **Aviso:** Foi implementada autentição JWT, utilizando spring security, dois usuários estão disponíveis, tambḿe está disponível testes unitários da camanda de service, e de integração da camada de controller.
 
 1. **Usuário Admin**
    - **Nome de Usuário:** admin
@@ -94,6 +94,10 @@ A escalabilidade do Neo4j é um fator importante, permitindo que o sistema cres�
    - **Senha:** user123
 
 A idéia era implementar o conceito de RBAC (role based access control), que ficará para uma próxima atualização do projeto. 
+
+### Ajustes e melhorias
+
+- [] RBAC
 
 <p align="left">
   💌 Contatos: ⤵️
