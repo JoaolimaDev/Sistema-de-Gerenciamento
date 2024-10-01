@@ -29,5 +29,22 @@ public interface FileNodeRepository extends Neo4jRepository<FileNode, Long> {
     RETURN count(node)
     """)
     long countFileNodes();
+
+    @Query("""
+    MATCH (node:FileNode)
+    WHERE node.name CONTAINS $name
+    OPTIONAL MATCH (node)-[r:contains]->(child:FileNode)
+    RETURN node, collect(r), collect(child)
+    SKIP $skip LIMIT $limit
+    """)
+    List<FileNode> findNodesByNamePagination(@Param("name") String name, @Param("skip") long skip, @Param("limit") int limit);
+
+    @Query("""
+        MATCH (node:FileNode)
+        WHERE node.name CONTAINS $name
+        RETURN count(node)
+        """)
+    long countFileNodesByName(@Param("name") String name);
     
+
 }

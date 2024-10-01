@@ -79,11 +79,14 @@ public class FileNodeServiceImpl implements FileNodeService {
     }
 
     @Override
-    public FileNode getFileNodeByName(String name) {
-        
-        return fileNodeRepository.findByname(name)
-        .orElseThrow(() -> new CustomException("Nenhum arquivo ou diretório encontrado para"+
-        "o nome enviado!", HttpStatus.BAD_REQUEST));
+    public Page<FileNode>  getFileNodeByName(String name, int pageNumber, int pageSize) {
+
+        long skip = (long) pageNumber * pageSize;
+        List<FileNode> fileNodes = fileNodeRepository.findNodesByNamePagination(name, skip, pageSize);
+    
+        long total = fileNodeRepository.countFileNodesByName(name);
+    
+        return new PageImpl<>(fileNodes, PageRequest.of(pageNumber, pageSize), total);    
     }
 
     @Override
