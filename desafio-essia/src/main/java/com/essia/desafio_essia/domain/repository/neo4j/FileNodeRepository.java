@@ -22,6 +22,12 @@ public interface FileNodeRepository extends Neo4jRepository<FileNode, Long> {
     SKIP $skip LIMIT $limit
     """)
     List<FileNode> findNodesPagination(@Param("skip") long skip, @Param("limit") int limit);
-
+    
+    @Query("""
+    MATCH (node:FileNode)
+    WHERE node.isChild = false
+    RETURN count(node)
+    """)
+    long countFileNodes();
     
 }

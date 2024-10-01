@@ -65,8 +65,8 @@ public class FileNodeServiceImpl implements FileNodeService {
         long skip = (long) pageNumber * pageSize;
         List<FileNode> fileNodes = fileNodeRepository.findNodesPagination(skip, pageSize);
         
-        int total = fileNodes.size();
-
+        long total = fileNodeRepository.countFileNodes();
+        
         return new PageImpl<>(fileNodes, PageRequest.of(pageNumber, pageSize), total);     
     }
 
