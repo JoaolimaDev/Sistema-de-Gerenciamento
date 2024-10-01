@@ -175,21 +175,22 @@ public class FileNodeServiceImplTest {
         fileNode.setName("root");
         fileNode.setIsDirectory(true);
         FileNodePutRequest putRequest = new FileNodePutRequest(newName, true, null);
-
-        
+    
+    
         when(fileNodeRepository.findByname(fileNode.getName())).thenReturn(Optional.of(fileNode));
         when(fileNodeRepository.findByname(newName)).thenReturn(Optional.empty());
         when(fileNodeRepository.save(any(FileNode.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
+    
         FileNode updatedNode = fileNodeService.updateFileNode(putRequest, "root");
-
+    
+ 
         assertNotNull(updatedNode);
         assertEquals(newName, updatedNode.getName());
-        verify(fileNodeRepository, times(1)).findByname("root");
-        verify(fileNodeRepository, times(1)).findByname(newName); 
-        verify(fileNodeRepository, times(1)).save(fileNode);
+        verify(fileNodeRepository, times(1)).findByname("root"); // Check that we searched for the current name
+        verify(fileNodeRepository, times(1)).findByname(newName); // Check that we checked for the new name
+        verify(fileNodeRepository, times(1)).save(fileNode); // Ensure save was called with the correct fileNode
     }
-
+    
     @Test
     @Order(9)
     void updateFileNodeTestFailed() {
@@ -200,22 +201,22 @@ public class FileNodeServiceImplTest {
         FileNode existingFileNode = new FileNode();
         existingFileNode.setName(newName);
         FileNodePutRequest putRequest = new FileNodePutRequest(newName, false, null);
-
-
+    
+   
         when(fileNodeRepository.findByname(currentName)).thenReturn(Optional.of(fileNode));
         when(fileNodeRepository.findByname(newName)).thenReturn(Optional.of(existingFileNode)); 
-
-
+    
+     
         CustomException thrown = assertThrows(CustomException.class, () -> {
             fileNodeService.updateFileNode(putRequest, currentName);
         });
-
-
+   
         assertEquals("O nome fornecido já está reservado: " + existingFileNode.getName(), thrown.getMessage());
         assertEquals(HttpStatus.BAD_REQUEST, thrown.getStatus());
         verify(fileNodeRepository, times(1)).findByname(currentName);
         verify(fileNodeRepository, times(1)).findByname(newName);
     }
+    
 
 
     @Test
