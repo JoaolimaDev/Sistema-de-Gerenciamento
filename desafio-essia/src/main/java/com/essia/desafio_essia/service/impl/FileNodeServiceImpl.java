@@ -93,14 +93,11 @@ public class FileNodeServiceImpl implements FileNodeService {
         .orElseThrow(() -> new CustomException("Nenhum arquivo ou diretório encontrado para"+
         "o nome enviado!", HttpStatus.BAD_REQUEST));
 
-        if(fileNodePutRequest.newName() != name){
-
-            Optional<FileNode> findOptional = fileNodeRepository.findByname(fileNodePutRequest.newName());
-
-            if (findOptional.isPresent()) {
-                
-                throw new CustomException("O nome fornecido já está reservado: " + findOptional.get().getName(),
-                HttpStatus.BAD_REQUEST);
+        if (!fileNodePutRequest.newName().equals(name)) {
+            
+            Optional<FileNode> existingNodeOptional = fileNodeRepository.findByname(fileNodePutRequest.newName());
+            if (existingNodeOptional.isPresent()) {
+                throw new CustomException("O nome fornecido já está reservado: " + existingNodeOptional.get().getName(), HttpStatus.BAD_REQUEST);
             }
         }
 
