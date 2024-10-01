@@ -8,7 +8,8 @@ Restful api, com frontend completo, autênticação e validação via JWT token
 - **Spring Boot 3**: 3.3.4
 - **Spring Data JPA**: versão mais recente
 - **Spring Data Neo4j**: versão mais recente
- - **OpenAPI (Swagger)**: 2.6.0
+- **OpenAPI (Swagger)**: 2.6.0
+- **H2**: versão mais recente
 
 ## Diagrama de Classes (Domínio da API)
 ```mermaid
@@ -70,3 +71,44 @@ O uso do Neo4j em um sistema de gerenciamento de arquivos é justificado por sua
 
 Neo4j garante a integridade dos dados por meio de transações em operações de criação, atualização e exclusão.
 A escalabilidade do Neo4j é um fator importante, permitindo que o sistema cresça em volume e complexidade sem perda de desempenho.
+
+## Como utilizar
+
+```bash
+    git clone https://github.com/JoaolimaDev/desafio-essia.git
+    cd desafio-essia
+    cd desafio-essia
+    mvn clean package
+    cd ..
+    sudo docker-compose up --build
+```
+
+🚨 **Aviso:** Foi implementada autentição JWT, utilizando spring security, dois usuários estão disponíveis.
+
+1. **Usuário Admin**
+   - **Nome de Usuário:** admin
+   - **Senha:** admin123
+
+2. **Usuário Comum**
+   - **Nome de Usuário:** user
+   - **Senha:** user123
+
+A idéia era implementar o conceito de RBAC (role based access control), que ficará para uma próxima atualização do projeto. 
+
+<p align="left">
+  💌 Contatos: ⤵️
+</p>
+
+<p align="left">
+  <a href="mailto:ozymandiasphp@gmail.com" title="Gmail">
+  <img src="https://img.shields.io/badge/-Gmail-FF0000?style=flat-square&labelColor=FF0000&logo=gmail&logoColor=white&link=LINK-DO-SEU-GMAIL" alt="Gmail"/></a>
+  <a href="https://www.linkedin.com/in/jo%C3%A3o-vitor-de-lima-74441b1b1/" title="LinkedIn">
+  <img src="https://img.shields.io/badge/-Linkedin-0e76a8?style=flat-square&logo=Linkedin&logoColor=white&link=LINK-DO-SEU-LINKEDIN" alt="LinkedIn"/></a>
+  <a href="https://wa.me/5581989553431" title="WhatsApp">
+  <img src="https://img.shields.io/badge/-WhatsApp-25d366?style=flat-square&labelColor=25d366&logo=whatsapp&logoColor=white&link=API-DO-SEU-WHATSAPP" alt="WhatsApp"/></a>
+</p>
+
+
+
+
+   
