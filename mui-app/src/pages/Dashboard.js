@@ -66,7 +66,7 @@ const Dashboard = () => {
       if (response.status === 204) {
         alert('Entidade deletada com sucesso!');
       
-        fetchData(); 
+        window.location.reload();
       }
     } catch (error) {
       if (error.response && error.response.status === 403) {
@@ -120,7 +120,7 @@ const Dashboard = () => {
         }
       );
   
-      const data = response.data.content[0];
+      const data = response.data.fileNode;
   
       
       if (data.childNode.length > 0) {
@@ -139,7 +139,7 @@ const Dashboard = () => {
       }
       
       alert(error.response.data.mensagem);
-      console.error('Error:', + error.response.data.mensagem);
+      console.error('Error:', + error);
     }
   }, []);
 
@@ -157,7 +157,7 @@ const Dashboard = () => {
         }
       );
   
-      const data = response.data.content[0];
+      const data = response.data.fileNode;
   
    
         setCurrentNode([data]);
@@ -175,7 +175,7 @@ const Dashboard = () => {
       }
       
       alert(error.response.data.mensagem);
-      console.error('Error:', + error.response.data.mensagem);
+      console.error('Error:', + error);
     }
   }, []);
 
