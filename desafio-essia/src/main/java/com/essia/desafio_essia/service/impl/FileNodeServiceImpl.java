@@ -101,14 +101,6 @@ public class FileNodeServiceImpl implements FileNodeService {
             }
         }
 
-        Optional<FileNode> findOptional = fileNodeRepository.findByname(fileNodePutRequest.newName());
-
-        if (findOptional.isPresent()) {
-            
-            throw new CustomException("O nome fornecido já está reservado: " + findOptional.get().getName(),
-            HttpStatus.BAD_REQUEST);
-        }
-
         fileNode.setName(fileNodePutRequest.newName());
 
         if (fileNodePutRequest.parentNode() != null) {
