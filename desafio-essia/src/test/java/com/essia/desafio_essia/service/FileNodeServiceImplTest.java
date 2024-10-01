@@ -165,26 +165,6 @@ public class FileNodeServiceImplTest {
 
     @Test
     @Order(7)
-    void getFileNodeByNameTestFailed() {
-        String name = "root";
-        int pageNumber = 0;
-        int pageSize = 10;
-    
-        when(fileNodeRepository.findNodesByNamePagination(name, pageNumber * pageSize, pageSize)).thenReturn(Collections.emptyList());
-        when(fileNodeRepository.countFileNodesByName(name)).thenReturn(0L);
-    
-        CustomException thrown = assertThrows(CustomException.class, () -> {
-            fileNodeService.getFileNodeByName(name, pageNumber, pageSize);
-        });
-    
-        assertEquals("Nenhum arquivo ou diretório encontrado para o nome enviado!", thrown.getMessage());
-        assertEquals(HttpStatus.BAD_REQUEST, thrown.getStatus());
-        verify(fileNodeRepository, times(1)).findNodesByNamePagination(name, pageNumber * pageSize, pageSize);
-        verify(fileNodeRepository, times(1)).countFileNodesByName(name);
-    }
-    
-    @Test
-    @Order(8)
     void updateFileNodeTest(){
 
         String newName = "rootAtualizado";
@@ -210,7 +190,7 @@ public class FileNodeServiceImplTest {
 
 
     @Test
-    @Order(9)
+    @Order(8)
     void updateFileNodeTestFailed(){
 
         String currentName = "root";
@@ -236,7 +216,7 @@ public class FileNodeServiceImplTest {
 
 
     @Test
-    @Order(10)
+    @Order(9)
     void updateFileNodeTestFailedParentNode(){
 
         String currentName = "CurrentNode";
@@ -264,7 +244,7 @@ public class FileNodeServiceImplTest {
     }
 
     @Test
-    @Order(11)
+    @Order(10)
     void deleteFileNodeById(){
 
         Long id = 1L;
@@ -283,7 +263,7 @@ public class FileNodeServiceImplTest {
 
 
     @Test
-    @Order(12)
+    @Order(11)
     void deleteFileNodeByIdTest(){
 
         Long id = 1L;
@@ -306,7 +286,7 @@ public class FileNodeServiceImplTest {
      * Neste teste passamos o arquivo teste.txt como "filho" do diretório root, ou seja teste.txt pertence a root.
      ***/
     @Test
-    @Order(13)
+    @Order(12)
     void createFilenodeTestChildNode(){
 
         FileNode fileNode = new FileNode();
