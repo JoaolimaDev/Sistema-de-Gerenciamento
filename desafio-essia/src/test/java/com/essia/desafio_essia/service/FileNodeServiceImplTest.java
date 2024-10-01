@@ -1,7 +1,6 @@
 package com.essia.desafio_essia.service;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -136,35 +135,40 @@ public class FileNodeServiceImplTest {
         verify(fileNodeRepository, times(1)).findById(id);
 
     }
-
     @Test
     @Order(6)
-    void getFileNodeByNameTest() {
+    void getFileNodeByNameTest(){
+
         String name = "root";
-        int pageNumber = 0;
-        int pageSize = 10;
-    
         FileNode newNode = new FileNode();
         newNode.setName(name);
-        List<FileNode> fileNodes = Collections.singletonList(newNode);
-    
-        when(fileNodeRepository.findNodesByNamePagination(name, pageNumber * pageSize, pageSize)).thenReturn(fileNodes);
-        when(fileNodeRepository.countFileNodesByName(name)).thenReturn(1L);
-    
-        Page<FileNode> result = fileNodeService.getFileNodeByName(name, pageNumber, pageSize);
-    
+        when(fileNodeRepository.findByname(name)).thenReturn(Optional.of(newNode));
+
+        FileNode result = fileNodeService.getFileNodeByName(name);
+
         assertNotNull(result);
-        assertEquals(1, result.getTotalElements());
-        assertEquals(1, result.getTotalPages());
-        assertEquals(1, result.getContent().size());
-        assertEquals(name, result.getContent().get(0).getName());
-        verify(fileNodeRepository, times(1)).findNodesByNamePagination(name, pageNumber * pageSize, pageSize);
-        verify(fileNodeRepository, times(1)).countFileNodesByName(name);
+        assertEquals(name, result.getName());
+        verify(fileNodeRepository, times(1)).findByname(name);
     }
-    
 
     @Test
     @Order(7)
+    void getFileNodeByNameTestFailed(){
+
+        String name = "root";
+        when(fileNodeRepository.findByname(name)).thenReturn(Optional.empty());
+
+        CustomException thrown = assertThrows(CustomException.class, () -> {
+            fileNodeService.getFileNodeByName(name);
+        });
+
+        assertEquals("Nenhum arquivo ou diretório encontrado parao nome enviado!", thrown.getMessage());
+        assertEquals(HttpStatus.BAD_REQUEST, thrown.getStatus());
+        verify(fileNodeRepository, times(1)).findByname(name);
+    }
+
+    @Test
+    @Order(8)
     void updateFileNodeTest(){
 
         String newName = "rootAtualizado";
@@ -190,7 +194,7 @@ public class FileNodeServiceImplTest {
 
 
     @Test
-    @Order(8)
+    @Order(9)
     void updateFileNodeTestFailed(){
 
         String currentName = "root";
@@ -216,7 +220,7 @@ public class FileNodeServiceImplTest {
 
 
     @Test
-    @Order(9)
+    @Order(10)
     void updateFileNodeTestFailedParentNode(){
 
         String currentName = "CurrentNode";
@@ -244,7 +248,7 @@ public class FileNodeServiceImplTest {
     }
 
     @Test
-    @Order(10)
+    @Order(11)
     void deleteFileNodeById(){
 
         Long id = 1L;
@@ -263,7 +267,7 @@ public class FileNodeServiceImplTest {
 
 
     @Test
-    @Order(11)
+    @Order(12)
     void deleteFileNodeByIdTest(){
 
         Long id = 1L;
@@ -286,7 +290,7 @@ public class FileNodeServiceImplTest {
      * Neste teste passamos o arquivo teste.txt como "filho" do diretório root, ou seja teste.txt pertence a root.
      ***/
     @Test
-    @Order(12)
+    @Order(13)
     void createFilenodeTestChildNode(){
 
         FileNode fileNode = new FileNode();
@@ -308,5 +312,4 @@ public class FileNodeServiceImplTest {
         verify(fileNodeRepository, times(1)).findByname("root");
         verify(fileNodeRepository, times(1)).save(fileNode);
     }
-
 }   

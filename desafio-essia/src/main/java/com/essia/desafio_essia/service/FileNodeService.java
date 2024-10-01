@@ -11,7 +11,7 @@ public interface FileNodeService {
     public FileNode createFilenode(FileNodePostRequest fileNode);
     public Page<FileNode> getAllFileNode(int pageNumber, int pageSize);
     public FileNode getFileNodeById(Long Id);
-    public Page<FileNode>  getFileNodeByName(String name, int pageNumber, int pageSize);
+    public FileNode getFileNodeByName(String name);
     public FileNode updateFileNode(FileNodePutRequest fileNodePutRequest, String name);
     public void deleteFileNodeById(Long Id);
 }

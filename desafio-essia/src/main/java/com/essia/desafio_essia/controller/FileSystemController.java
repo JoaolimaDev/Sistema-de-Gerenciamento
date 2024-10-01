@@ -171,15 +171,13 @@ public class FileSystemController {
             schema = @Schema(implementation = FileNode.class))})
     })
     @GetMapping("/getByname")
-    public ResponseEntity<Page<FileNode>> getFileNodeByName(
-        @RequestParam String name,
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "10") int size
+    public ResponseEntity<FileNodeResponse> getFileNodeByName(
+        @RequestParam String name
 
     ){
-
-        Page<FileNode> fileNode = fileNodeService.getFileNodeByName(name, page, size);
-        return new ResponseEntity<>(fileNode, HttpStatus.OK);
+        FileNode fileNode = fileNodeService.getFileNodeByName(name);
+        FileNodeResponse fileNodeResponse = new FileNodeResponse(fileNode, HttpStatus.OK.name());
+        return new ResponseEntity<>(fileNodeResponse, HttpStatus.OK);
     }
 
 
