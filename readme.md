@@ -1,15 +1,18 @@
-## Desafio Essia, sistema de gerenciamento de arquivos -- Dev João vitor de lima Desenvolvedor Fullstark Pleno
+## Desafio Essia: Sistema de Gerenciamento de Arquivos
 
-Restful api, com frontend completo, autênticação e validação via JWT token
+**Dev:** João Vitor de Lima  
+**Desenvolvedor Fullstack Pleno**
+
+Restful API com frontend completo, autenticação e validação via JWT token.
 
 ## Principais Tecnologias
 
-- **Java 17**: java version 17.0.6-tem
-- **Spring Boot 3**: 3.3.4
-- **Spring Data JPA**: versão mais recente
-- **Spring Data Neo4j**: versão mais recente
-- **OpenAPI (Swagger)**: 2.6.0
-- **H2**: versão mais recente
+- **Java 17:** versão 17.0.6-tem
+- **Spring Boot 3:** 3.3.4
+- **Spring Data JPA:** versão mais recente
+- **Spring Data Neo4j:** versão mais recente
+- **OpenAPI (Swagger):** 2.6.0
+- **H2:** versão mais recente
 
 ## Diagrama de Classes (Domínio da API)
 ```mermaid
@@ -83,7 +86,7 @@ A escalabilidade do Neo4j é um fator importante, permitindo que o sistema cres�
     sudo docker-compose up --build
 ```
 
-🚨 **Aviso:** Foi implementada autentição JWT, utilizando spring security, dois usuários estão disponíveis, tambḿe está disponível testes unitários da camanda de service, e de integração da camada de controller.
+🚨 **Aviso:** Foi implementada autenticação JWT, utilizando Spring Security. Dois usuários estão disponíveis, além de testes unitários na camada de service e de integração na camada de controller.
 
 1. **Usuário Admin**
    - **Nome de Usuário:** admin
@@ -100,7 +103,7 @@ A escalabilidade do Neo4j é um fator importante, permitindo que o sistema cres�
 2. **ACESSO AO CONSOLE DO BANCO NEO4J**
    - **URL:** http://localhost:7474/browser/
 
-A idéia era implementar o conceito de RBAC (role based access control), que ficará para uma próxima atualização do projeto. 
+A ideia era implementar o conceito de RBAC (role-based access control), que ficará para uma próxima atualização do projeto.
 
 <p align="left">
   💌 Contatos: ⤵️
