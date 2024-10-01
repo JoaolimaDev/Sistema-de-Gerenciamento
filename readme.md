@@ -58,8 +58,8 @@ classDiagram
 |--------|--------------------------------------------|---------------------------------------------|
 | POST   | `/api/filesystem/create`                     | Cria um novo arquivo ou diretório           |
 | GET    | `/api/filesystem/?page={page}&size={size}`   | Recupera uma lista paginada de file nodes   |
-| GET    | `api/filesystem/{id}`                        | Obtém um arquivo ou diretório pelo ID       |
-| GET    | `/api/filesystem/{name}`                     | Obtém um arquivo ou diretório pelo nome     |
+| GET    | `api/filesystem/?id={id}`                    | Obtém um arquivo ou diretório pelo ID       |
+| GET    | `/api/filesystem/?name={name}`               | Obtém um arquivo ou diretório pelo nome     |
 | PUT    | `/api/filesystem/update?name={name}'`        | Atualiza um arquivo ou diretório existente  |
 | DELETE | `/api/filesystem/delete?id={id}`             | Deleta um arquivo ou diretório pelo ID      |
 | POST   | `/api/auth/login`                            | Autentica um usuário                        |
@@ -94,10 +94,6 @@ A escalabilidade do Neo4j é um fator importante, permitindo que o sistema cres�
    - **Senha:** user123
 
 A idéia era implementar o conceito de RBAC (role based access control), que ficará para uma próxima atualização do projeto. 
-
-### Ajustes e melhorias
-
-- [] RBAC
 
 <p align="left">
   💌 Contatos: ⤵️
