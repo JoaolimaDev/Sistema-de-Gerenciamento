@@ -187,7 +187,7 @@ public class FileNodeServiceImplTest {
         assertNotNull(updatedNode);
         assertEquals(newName, updatedNode.getName());
         verify(fileNodeRepository, times(1)).findByname("root");
-        verify(fileNodeRepository, times(2)).findByname(newName); 
+        verify(fileNodeRepository, times(1)).findByname(newName); 
         verify(fileNodeRepository, times(1)).save(fileNode); 
     }
     
@@ -243,7 +243,7 @@ public class FileNodeServiceImplTest {
         assertEquals("Parent node inválido!", thrown.getMessage());
         assertEquals(HttpStatus.BAD_REQUEST, thrown.getStatus());
         verify(fileNodeRepository, times(1)).findByname(currentName);
-        verify(fileNodeRepository, times(2)).findByname(newName);
+        verify(fileNodeRepository, times(1)).findByname(newName);
         verify(fileNodeRepository, times(1)).findByname(parentName);
     }
 
