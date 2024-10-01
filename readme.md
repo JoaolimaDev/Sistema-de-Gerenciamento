@@ -62,3 +62,6 @@ classDiagram
 | PUT    | `/api/filesystem/update?name={name}'`        | Atualiza um arquivo ou diretório existente  |
 | DELETE | `/api/filesystem/delete?id={id}`             | Deleta um arquivo ou diretório pelo ID      |
 | POST   | `/api/auth/login`                            | Autentica um usuário                        |
+
+
+![Alt text](neo4j.png)
