@@ -58,10 +58,11 @@ const RegisterModal = ({ open, handleClose }) => {
     } catch (error) {
       if (error.response && error.response.status === 403) {
         alert("Sessão expirada por favor autentique novamente!");
-        window.location.reload(); 
-      } else {
-        console.error('Error:', error);
       }
+      
+      alert(error.response.data.mensagem);
+      console.error('Error:', + error.response.data.mensagem);
+      
     }
   };
 

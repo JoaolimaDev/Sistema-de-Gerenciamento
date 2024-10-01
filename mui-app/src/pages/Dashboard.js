@@ -26,7 +26,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 const Dashboard = () => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(2);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchTerm, setSearchTerm] = useState('');
   const [open, setOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -46,8 +46,36 @@ const Dashboard = () => {
     setSelectedRow(null);
   };
 
-  const handleDelete = (id) => {
-    alert(`Delete user with ID: ${id}`);
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(`Você tem certeza que deseja excluir a entidade de id: ${id}?`);
+    if (!confirmDelete) return;
+  
+    const token = localStorage.getItem('token');
+  
+    try {
+      const response = await axios.delete(
+        `http://localhost:8080/api/filesystem/delete?id=${id}`,
+        {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (response.status === 204) {
+        alert('Entidade deletada com sucesso!');
+      
+        fetchData(); 
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 403) {
+        alert("Sessão expirada por favor autentique novamente!");
+      } else {
+        console.error(':', error);
+        alert(error);
+      }
+    }
   };
 
   const fetchData = useCallback(async () => {
@@ -83,7 +111,7 @@ const Dashboard = () => {
     const token = localStorage.getItem('token');
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/filesystem/getByname?name=${name}&page=${page}&size=${rowsPerPage}`,
+        `http://localhost:8080/api/filesystem/getByname?name=${name}`,
         {
           headers: {
             Accept: 'application/json',
@@ -94,12 +122,12 @@ const Dashboard = () => {
   
       const data = response.data.content[0];
   
-      // Set the current node and update the breadcrumb path
+      
       if (data.childNode.length > 0) {
         setCurrentNode(data.childNode);
         setPath((prevPath) => {
           if (prevPath[prevPath.length - 1] !== data.name) {
-            return [...prevPath, data.name]; // Append the new directory to the path
+            return [...prevPath, data.name];
           }
           return prevPath;
         });
@@ -108,19 +136,19 @@ const Dashboard = () => {
     } catch (error) {
       if (error.response && error.response.status === 403) {
         alert("Sessão expirada por favor autentique novamente!");
-        window.location.href = "/";
-      } else {
-        console.error('', error);
       }
+      
+      alert(error.response.data.mensagem);
+      console.error('Error:', + error.response.data.mensagem);
     }
-  }, [page, rowsPerPage]);
+  }, []);
 
 
   const fetchNodeByName02 = useCallback(async (name) => {
     const token = localStorage.getItem('token');
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/filesystem/getByname?name=${name}&page=${page}&size=${rowsPerPage}`,
+        `http://localhost:8080/api/filesystem/getByname?name=${name}`,
         {
           headers: {
             Accept: 'application/json',
@@ -131,26 +159,25 @@ const Dashboard = () => {
   
       const data = response.data.content[0];
   
-     
-      if (data.childNode.length > 0) {
-        setCurrentNode(data.childNode);
+   
+        setCurrentNode([data]);
         setPath((prevPath) => {
           if (prevPath[prevPath.length - 1] !== data.name) {
             return [...prevPath, data.name]; 
           }
           return prevPath;
         });
-      }
+      
       
     } catch (error) {
       if (error.response && error.response.status === 403) {
         alert("Sessão expirada por favor autentique novamente!");
-        window.location.href = "/";
-      } else {
-        console.error('', error);
       }
+      
+      alert(error.response.data.mensagem);
+      console.error('Error:', + error.response.data.mensagem);
     }
-  }, [page, rowsPerPage]);
+  }, []);
 
   const handleDirectoryClick = async (node) => {
 
@@ -183,8 +210,6 @@ const Dashboard = () => {
       await fetchNodeByName02(nameToFetch);
       const updatedPath = newPath.slice(0, -1);
       setPath(updatedPath);
-
-      
     }
   };
 
