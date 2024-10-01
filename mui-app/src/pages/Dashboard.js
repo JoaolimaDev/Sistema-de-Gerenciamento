@@ -1,5 +1,6 @@
 // src/pages/Dashboard.js
 
+
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import {
@@ -26,7 +27,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 const Dashboard = () => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchTerm, setSearchTerm] = useState('');
   const [open, setOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -64,7 +65,7 @@ const Dashboard = () => {
       );
       const data = response.data;
       setRows(data.content);
-      setTotalElements(data.page.totalElements);
+      setTotalElements(data.page.totalElements); 
       setTotalPages(data.page.totalPages);
     } catch (error) {
       console.error('Error', error);
@@ -120,18 +121,27 @@ const Dashboard = () => {
     row.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleRowsPerPageChange = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10)); 
+    setPage(0); 
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
-     
       <Box
         sx={{
           backgroundColor: 'white',
           borderRadius: 1,
           boxShadow: 2,
           padding: 1,
-          marginBottom: 2, 
-          width: '80%', 
-          textAlign: 'center', 
+          marginBottom: 2,
+          width: '80%',
+          textAlign: 'center',
         }}
       >
         <Breadcrumbs aria-label="breadcrumb">
@@ -165,7 +175,7 @@ const Dashboard = () => {
         sx={{
           margin: '0 auto',
           maxWidth: '80%',
-          marginBottom: 2, 
+          marginBottom: 2,
         }}
       >
         <Table>
@@ -212,20 +222,17 @@ const Dashboard = () => {
       </TableContainer>
 
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={[5, 10, 25]} 
         component="div"
-        count={totalElements}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={(event, newPage) => setPage(newPage)}
-        onRowsPerPageChange={(event) => {
-          setRowsPerPage(parseInt(event.target.value, 10));
-          setPage(0);
-        }}
+        count={totalElements} 
+        rowsPerPage={rowsPerPage} 
+        page={page} 
+        onPageChange={handlePageChange} 
+        onRowsPerPageChange={handleRowsPerPageChange} 
       />
 
       <Box sx={{ textAlign: 'center', marginTop: 1 }}>
-        Page {page + 1} of {totalPages}
+        Page {page + 1} of {totalPages} {console.log(totalPages)}
       </Box>
 
       <UpdateFileNodeModel
