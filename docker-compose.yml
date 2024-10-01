@@ -22,3 +22,10 @@ services:
       - neo4j
     ports:
       - 8080:8080
+  
+  react-app:
+    build:
+      context: ./mui-app
+      dockerfile: ../dockerfilereact/Dockerfile  
+    ports:
+      - 3000:80  
