@@ -34,7 +34,7 @@ const Dashboard = () => {
   const [totalElements, setTotalElements] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [currentNode, setCurrentNode] = useState([]);
-  const [path, setPath] = useState(['root']);
+  const [path, setPath] = useState(['inicio']);
 
   const handleOpen = (row) => {
     setSelectedRow(row);
@@ -105,10 +105,10 @@ const Dashboard = () => {
   const handleBreadcrumbClick = (crumb) => {
     const index = path.indexOf(crumb);
     const newPath = path.slice(0, index + 1);
-    if (crumb === 'root') {
+    if (crumb === 'inicio') {
       fetchData();
       setCurrentNode([]);
-      setPath(['root']);
+      setPath(['inicio']);
     } else {
       const nameToFetch = newPath[newPath.length - 1];
       fetchNodeByName(nameToFetch);
