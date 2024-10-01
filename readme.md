@@ -93,6 +93,13 @@ A escalabilidade do Neo4j é um fator importante, permitindo que o sistema cres�
    - **Nome de Usuário:** user
    - **Senha:** user123
 
+
+1. **SWAGGER DISPONÍVEL**
+   - **URL:** http://localhost:8080/swagger-ui/index.html
+
+2. **ACESSO AO CONSOLE DO BANCO NEO4J**
+   - **URL:** http://localhost:7474/browser/
+
 A idéia era implementar o conceito de RBAC (role based access control), que ficará para uma próxima atualização do projeto. 
 
 <p align="left">
