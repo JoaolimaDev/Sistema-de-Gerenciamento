@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import {
   Modal,
   Box,
@@ -22,21 +23,53 @@ const style = {
 const RegisterModal = ({ open, handleClose }) => {
   const [newName, setNewName] = useState('');
   const [isDirectory, setIsDirectory] = useState('File'); 
+  const [parentNode, setParentNode] = useState('');
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
+    const token = localStorage.getItem('token');
     const newEntry = {
       name: newName,
       isDirectory: isDirectory === 'Folder',
     };
-    alert(`Registering new: ${JSON.stringify(newEntry)}`);
-    handleClose();
+
+    
+    if (parentNode) {
+      newEntry.parentNode = parentNode;
+    }
+
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/api/filesystem/create',
+        newEntry,
+        {
+          headers: {
+            Accept: '*/*',
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      console.log(response);
+      
+      alert("Registrado com sucesso: " + newName);
+      handleClose(); 
+      window.location.reload();
+    } catch (error) {
+      if (error.response && error.response.status === 403) {
+        alert("Sessão expirada por favor autentique novamente!");
+        window.location.reload(); 
+      } else {
+        console.error('Error:', error);
+      }
+    }
   };
 
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
         <Typography variant="h6" component="h2">
-          Register New Entry
+          Registro de uma nova entidade!
         </Typography>
         <form>
           <TextField
@@ -57,6 +90,13 @@ const RegisterModal = ({ open, handleClose }) => {
             <MenuItem value="Folder">Folder</MenuItem>
             <MenuItem value="File">File</MenuItem>
           </TextField>
+          <TextField
+            label="Parent Node (optional)"
+            value={parentNode}
+            onChange={(e) => setParentNode(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
           <Button variant="contained" color="primary" onClick={handleRegister}>
             Register
           </Button>

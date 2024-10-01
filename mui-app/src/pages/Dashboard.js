@@ -1,6 +1,5 @@
 // src/pages/Dashboard.js
 
-
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import {
@@ -27,7 +26,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 const Dashboard = () => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(2);
   const [searchTerm, setSearchTerm] = useState('');
   const [open, setOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -65,10 +64,14 @@ const Dashboard = () => {
       );
       const data = response.data;
       setRows(data.content);
-      setTotalElements(data.page.totalElements); 
+      setTotalElements(data.page.totalElements);
       setTotalPages(data.page.totalPages);
     } catch (error) {
-      console.error('Error', error);
+      if (error.response && error.response.status === 403) {
+        alert("Sessão expirada por favor autentique novamente!");
+      } else {
+        console.error('Error', error);
+      }
     }
   }, [page, rowsPerPage]);
 
@@ -80,7 +83,7 @@ const Dashboard = () => {
     const token = localStorage.getItem('token');
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/filesystem/getByname?name=${name}`,
+        `http://localhost:8080/api/filesystem/getByname?name=${name}&page=${page}&size=${rowsPerPage}`,
         {
           headers: {
             Accept: 'application/json',
@@ -88,22 +91,86 @@ const Dashboard = () => {
           },
         }
       );
-      const data = response.data.fileNode;
-      setCurrentNode(data.childNode);
-      setPath((prevPath) => [...prevPath.slice(0, -1), data.name]);
+  
+      const data = response.data.content[0];
+  
+      // Set the current node and update the breadcrumb path
+      if (data.childNode.length > 0) {
+        setCurrentNode(data.childNode);
+        setPath((prevPath) => {
+          if (prevPath[prevPath.length - 1] !== data.name) {
+            return [...prevPath, data.name]; // Append the new directory to the path
+          }
+          return prevPath;
+        });
+      }
+      
     } catch (error) {
-      console.error('', error);
+      if (error.response && error.response.status === 403) {
+        alert("Sessão expirada por favor autentique novamente!");
+        window.location.href = "/";
+      } else {
+        console.error('', error);
+      }
     }
-  }, []);
+  }, [page, rowsPerPage]);
 
-  const handleDirectoryClick = (node) => {
+
+  const fetchNodeByName02 = useCallback(async (name) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/filesystem/getByname?name=${name}&page=${page}&size=${rowsPerPage}`,
+        {
+          headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      const data = response.data.content[0];
+  
+     
+      if (data.childNode.length > 0) {
+        setCurrentNode(data.childNode);
+        setPath((prevPath) => {
+          if (prevPath[prevPath.length - 1] !== data.name) {
+            return [...prevPath, data.name]; 
+          }
+          return prevPath;
+        });
+      }
+      
+    } catch (error) {
+      if (error.response && error.response.status === 403) {
+        alert("Sessão expirada por favor autentique novamente!");
+        window.location.href = "/";
+      } else {
+        console.error('', error);
+      }
+    }
+  }, [page, rowsPerPage]);
+
+  const handleDirectoryClick = async (node) => {
+
+    
+    if (node.isDirectory && node.childNode.length === 0) {
+
+      await fetchNodeByName(node.name);
+    }
+    
     if (node.childNode.length > 0) {
       fetchNodeByName(node.name);
-      setPath((prevPath) => [...prevPath, node.name]);
+      setPath((prevPath) => {
+        if (prevPath[prevPath.length - 1] !== node.name) {
+          return [...prevPath, node.name]; 
+        }
+        return prevPath;
+      });
     }
   };
-
-  const handleBreadcrumbClick = (crumb) => {
+  const handleBreadcrumbClick = async (crumb) => {
     const index = path.indexOf(crumb);
     const newPath = path.slice(0, index + 1);
     if (crumb === 'inicio') {
@@ -111,9 +178,13 @@ const Dashboard = () => {
       setCurrentNode([]);
       setPath(['inicio']);
     } else {
+    
       const nameToFetch = newPath[newPath.length - 1];
-      fetchNodeByName(nameToFetch);
-      setPath(newPath);
+      await fetchNodeByName02(nameToFetch);
+      const updatedPath = newPath.slice(0, -1);
+      setPath(updatedPath);
+
+      
     }
   };
 
@@ -121,27 +192,18 @@ const Dashboard = () => {
     row.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleRowsPerPageChange = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10)); 
-    setPage(0); 
-  };
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
+     
       <Box
         sx={{
           backgroundColor: 'white',
           borderRadius: 1,
           boxShadow: 2,
           padding: 1,
-          marginBottom: 2,
-          width: '80%',
-          textAlign: 'center',
+          marginBottom: 2, 
+          width: '80%', 
+          textAlign: 'center', 
         }}
       >
         <Breadcrumbs aria-label="breadcrumb">
@@ -175,7 +237,7 @@ const Dashboard = () => {
         sx={{
           margin: '0 auto',
           maxWidth: '80%',
-          marginBottom: 2,
+          marginBottom: 2, 
         }}
       >
         <Table>
@@ -222,17 +284,20 @@ const Dashboard = () => {
       </TableContainer>
 
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25]} 
+        rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={totalElements} 
-        rowsPerPage={rowsPerPage} 
-        page={page} 
-        onPageChange={handlePageChange} 
-        onRowsPerPageChange={handleRowsPerPageChange} 
+        count={totalElements}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={(event, newPage) => setPage(newPage)}
+        onRowsPerPageChange={(event) => {
+          setRowsPerPage(parseInt(event.target.value, 10));
+          setPage(0);
+        }}
       />
 
       <Box sx={{ textAlign: 'center', marginTop: 1 }}>
-        Page {page + 1} of {totalPages} {console.log(totalPages)}
+        Page {page + 1} of {totalPages}
       </Box>
 
       <UpdateFileNodeModel
