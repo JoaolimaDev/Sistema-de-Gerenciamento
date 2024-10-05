@@ -14,6 +14,8 @@ Restful API com frontend completo, autenticação e validação via JWT token.
 - **OpenAPI (Swagger):** 2.6.0
 - **H2:** versão mais recente
 
+🚨 **Aviso:** Certificasse que as seguinter portas estão disponíveis: 8080, 3000, 7687, 7474
+
 ## Diagrama de Classes (Domínio da API)
 ```mermaid
 classDiagram
