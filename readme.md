@@ -104,6 +104,10 @@ A escalabilidade do Neo4j é um fator importante, permitindo que o sistema cres�
 
 2. **ACESSO AO CONSOLE DO BANCO NEO4J**
    - **URL:** http://localhost:7474/browser/
+  
+2. **Front-end**
+ - **URL:***  http://localhost:3000
+
 
 A ideia era implementar o conceito de RBAC (role-based access control), que ficará para uma próxima atualização do projeto.
 
