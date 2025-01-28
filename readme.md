@@ -1,4 +1,4 @@
-## Desafio Essia: Sistema de Gerenciamento de Arquivos
+## Sistema de Gerenciamento de Arquivos
 
 **Dev:** João Vitor de Lima  
 **Desenvolvedor Fullstack Pleno**
