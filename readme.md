@@ -29,6 +29,16 @@ Certifique-se de que as seguintes portas estão disponíveis:
 
 ---
 
+🌐 Acesso aos Serviços
+
+ - Swagger UI: http://localhost:8080/swagger-ui/index.html
+
+ - Neo4j Browser: http://localhost:7474/browser/
+
+ - Frontend: http://localhost:3000
+
+---
+
 ## 📊 Diagrama de Classes (Domínio da API)
 
 ```mermaid
@@ -120,17 +130,6 @@ Exemplo de Estrutura no Neo4j
 2. **Usuário Comum**
    - **Nome de Usuário:** user
    - **Senha:** user123
-
-
-1. **SWAGGER DISPONÍVEL**
-   - **URL:** http://localhost:8080/swagger-ui/index.html
-
-2. **ACESSO AO CONSOLE DO BANCO NEO4J**
-   - **URL:** http://localhost:7474/browser/
-  
-2. **Front-end**
- - **URL:**  http://localhost:3000
-
 
 📌 Próximos Passos
 
