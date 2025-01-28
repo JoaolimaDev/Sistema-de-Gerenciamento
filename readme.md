@@ -1,20 +1,32 @@
-## Sistema de Gerenciamento de Arquivos
+# Sistema de Gerenciamento de Arquivos
 
-**Dev:** João Vitor de Lima  
-**Desenvolvedor Fullstack Pleno**
+**Desenvolvedor:** João Vitor de Lima  
+**Cargo:** Desenvolvedor Fullstack Pleno
 
-Restful API com frontend completo, autenticação e validação via JWT token.
+Bem-vindo ao **Sistema de Gerenciamento de Arquivos**, uma solução robusta e escalável para gerenciar arquivos e diretórios de forma eficiente. Este projeto combina uma API Restful com um frontend completo, integrando autenticação segura via JWT e validações robustas. Com uma arquitetura baseada em grafos utilizando Neo4j, o sistema é capaz de modelar hierarquias complexas de arquivos e diretórios, garantindo desempenho e integridade dos dados.
 
-## Principais Tecnologias
+---
 
-- **Java 17:** versão 17.0.6-tem
-- **Spring Boot 3:** 3.3.4
-- **Spring Data JPA:** versão mais recente
-- **Spring Data Neo4j:** versão mais recente
-- **OpenAPI (Swagger):** 2.6.0
-- **H2:** versão mais recente
+## 🚀 Principais Tecnologias
 
-🚨 **Aviso:** Certificasse que as seguinter portas estão disponíveis: 8080, 3000, 7687, 7474
+- **Java 17**  
+- **Spring Boot 3**  
+- **Spring Data JPA**  
+- **Spring Data Neo4j**  
+- **OpenAPI (Swagger)**  
+- **H2 Database**  
+
+---
+
+## 🚨 Aviso
+
+Certifique-se de que as seguintes portas estão disponíveis:  
+- **8080** (Backend)  
+- **3000** (Frontend)  
+- **7687** (Neo4j Bolt)  
+- **7474** (Neo4j Browser)  
+
+---
 
 ## Diagrama de Classes (Domínio da API)
 ```mermaid
