@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.essia</groupId>
-	<artifactId>desafio-essia</artifactId>
+	<artifactId>spring-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>desafio-essia</name>
+	<name>spring-app</name>
 	<description>Desafio Essia com SPRING e NEO4J</description>
 	<url/>
 	<licenses>

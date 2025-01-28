@@ -115,8 +115,8 @@ Exemplo de Estrutura no Neo4j
 ## 🛠️  Como utilizar
 
 ```bash
-    git clone https://github.com/JoaolimaDev/desafio-essia.git
-    cd desafio-essia
+    git clone https://github.com/JoaolimaDev/spring-app.git
+    cd spring-app
     mvn clean package
     sudo docker-compose up --build
 ```
