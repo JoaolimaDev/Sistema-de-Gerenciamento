@@ -28,7 +28,8 @@ Certifique-se de que as seguintes portas estão disponíveis:
 
 ---
 
-## Diagrama de Classes (Domínio da API)
+## 📊 Diagrama de Classes (Domínio da API)
+
 ```mermaid
 classDiagram
     class FileNodeServiceImpl {
@@ -66,7 +67,7 @@ classDiagram
     FileNodeServiceImpl --> CustomException : throws
     FileNodeRepository --> FileNode : returns
 ```
-
+---
 
 ## API Endpoints
 -------------
