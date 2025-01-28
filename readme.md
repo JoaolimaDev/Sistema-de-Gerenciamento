@@ -82,6 +82,9 @@ classDiagram
 | DELETE | `/api/filesystem/delete?id={id}`             | Deleta um arquivo ou diretório pelo ID      |
 | POST   | `/api/auth/login`                            | Autentica um usuário                        |
 
+
+---
+
 🗂️ Modelagem de Dados com Neo4j
 
 O Neo4j foi escolhido por sua capacidade de modelar relacionamentos complexos de forma eficiente. A estrutura de arquivos e diretórios é representada como um grafo, onde os relacionamentos CONTAINS definem a hierarquia. Por exemplo:
@@ -95,6 +98,8 @@ O Neo4j foi escolhido por sua capacidade de modelar relacionamentos complexos de
 Exemplo de Estrutura no Neo4j
 ![Alt text](neo4j.png)
 
+
+---
 
 ## 🛠️  Como utilizar
 
@@ -126,10 +131,14 @@ Exemplo de Estrutura no Neo4j
  - **URL:**  http://localhost:3000
 
 
-A ideia era implementar o conceito de RBAC (role-based access control), que ficará para uma próxima atualização do projeto.
+📌 Próximos Passos
+
+   - Implementação de RBAC (Role-Based Access Control) para controle de acesso baseado em papéis.
+
+   - Expansão dos testes unitários e de integração.
 
 <p align="left">
-  💌 Contatos: ⤵️
+  📞  Contatos: ⤵️
 </p>
 
 <p align="left">
