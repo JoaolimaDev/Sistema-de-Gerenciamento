@@ -96,14 +96,12 @@ Exemplo de Estrutura no Neo4j
 ![Alt text](neo4j.png)
 
 
-## Como utilizar
+## 🛠️  Como utilizar
 
 ```bash
     git clone https://github.com/JoaolimaDev/desafio-essia.git
     cd desafio-essia
-    cd desafio-essia
     mvn clean package
-    cd ..
     sudo docker-compose up --build
 ```
 
