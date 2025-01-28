@@ -14,7 +14,8 @@ Bem-vindo ao **Sistema de Gerenciamento de Arquivos**, uma solução robusta e e
 - **Spring Data JPA**  
 - **Spring Data Neo4j**  
 - **OpenAPI (Swagger)**  
-- **H2 Database**  
+- **H2 Database**
+- **React js**    
 
 ---
 
