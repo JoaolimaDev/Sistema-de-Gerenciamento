@@ -119,7 +119,7 @@ Exemplo de Estrutura no Neo4j
     cd Sistema-de-Gerenciamento
     cd spring-app
     mvn clean package
-    sudo docker-compose up --build
+    sudo docker compose up --build
 ```
 
 🚨 **Aviso:** Foi implementada autenticação JWT, utilizando Spring Security. Dois usuários estão disponíveis, além de testes unitários na camada de service e de integração na camada de controller.
